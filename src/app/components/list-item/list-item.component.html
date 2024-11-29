@@ -1,0 +1,24 @@
+<ul class="list">
+  <li *ngFor="let item of items">
+    <div class="item">
+      <div class="item__wrapper">
+        <div class="item__box">
+          <strong class="item__name">{{ item.name }}</strong>
+          <span>Amount: {{ item.amount }}</span>
+          <span>Fund: {{ item.fund }}</span>
+          <span>Town: {{ item.town }}</span>
+          <span>Radius: {{ item.radius }}km</span>
+        </div>
+        <div class="item__box">
+          <button class="item__button" type="button">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button class="item__button" type="button">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <input class="item__input" type="checkbox" checked="item.status" />
+        </div>
+      </div>
+    </div>
+  </li>
+</ul>

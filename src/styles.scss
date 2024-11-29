@@ -1,0 +1,26 @@
+:root {
+  // COLORS
+  --main-color: dodgerblue;
+  --secondary-color: gold;
+  --background-color: white;
+  --shadow-color: grey
+  --font-color: #000;
+
+  // FONTS
+  --xl-font: 2em;
+  --lg-font: 1.5em;
+  --md-font: 1em;
+  --sl: 0.5em;
+}
+
+body {
+  margin: 0;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
