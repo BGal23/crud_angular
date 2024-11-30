@@ -1,6 +1,5 @@
 <div class="window">
-  <!-- <form [formGroup]="itemForm" (ngSubmit)="onSubmit()"></form> -->
-  <form class="form">
+  <form class="form" [formGroup]="form" (ngSubmit)="addItem()">
     <div class="form__wrapper">
       <h2 class="form__title">Enter new marketing campaign data</h2>
       <button type="button" (click)="onCloseForm()">
@@ -34,6 +33,5 @@
     <div class="form__button">
       <button type="submit">Confirm</button>
     </div>
-    <!-- <button type="submit" [disabled]="itemForm.invalid">Dodaj</button> -->
   </form>
 </div>

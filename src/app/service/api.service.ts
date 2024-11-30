@@ -6,22 +6,19 @@ import { TListItem } from '../types/TListItem';
   providedIn: 'root',
 })
 export class ApiService {
-  private URL = 'https://67487cd15801f51535911fa2.mockapi.io';
+  private URL = 'http://localhost:3000'; // 'https://67487cd15801f51535911fa2.mockapi.io';
   private http = inject(HttpClient);
 
   getAll() {
     return this.http.get<TListItem[]>(`${this.URL}/campaigns`);
   }
 
-  delete(taskId: number) {
-    return this.http.delete(`${this.URL}/campaigns/${taskId}`);
+  delete(id: string) {
+    return this.http.delete(`${this.URL}/campaigns/${id}`);
   }
 
-  update(taskId: number, payload: boolean) {
-    return this.http.patch<TListItem>(
-      `${this.URL}/campaigns/${taskId}`,
-      payload
-    );
+  update(id: string, payload: Partial<TListItem>) {
+    return this.http.patch<TListItem>(`${this.URL}/campaigns/${id}`, payload);
   }
 
   add(obj: TListItem) {

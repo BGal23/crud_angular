@@ -9,19 +9,19 @@
 <main>
   <div class="container">
     <app-list-item
-      *ngIf="listState.state === 'success'"
+      *ngIf="listState.state === listStateValue.SUCCESS"
       [items]="listState.results"
     />
-    <div *ngIf="listState.state === 'loading'">Ładowanie danych...</div>
-    <div *ngIf="listState.state === 'error'">
-      Błąd: {{ listState.error.message }}
+    <div *ngIf="listState.state === listStateValue.LOADING">Loading...</div>
+    <div *ngIf="listState.state === listStateValue.ERROR">
+      Error: {{ listState.error.message }}
     </div>
   </div>
   <button type="button" class="open-form" (click)="toggleForm(true)">
     <span>Add new campaign</span><mat-icon>add</mat-icon>
   </button>
   <div class="background" *ngIf="isFormOpen">
-    <app-form (closeForm)="toggleForm(false)" />
+    <app-form (closeForm)="toggleForm(false)" [listState]="listState" />
   </div>
 </main>
 

@@ -1,0 +1,24 @@
+{
+  "campaigns": [
+    {
+      "id": "738a126a-7274-4aa1-97ef-14ad7be12075",
+      "name": "A",
+      "amount": 1,
+      "fund": 1,
+      "town": "A",
+      "radius": 1,
+      "keywords": "1a",
+      "status": false
+    },
+    {
+      "id": "1c1fb1c2-4199-4867-be0a-a1e4c44d25d1",
+      "name": "B",
+      "amount": 2,
+      "fund": 2,
+      "town": "B",
+      "radius": 2,
+      "keywords": "2b",
+      "status": true
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, Output } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ListItemComponent } from './components/list-item/list-item.component';
 import { NgIf } from '@angular/common';
@@ -6,28 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormComponent } from './components/form/form.component';
 import { ApiService } from './service/api.service';
 import { TListItem } from './types/TListItem';
-
-type ListFetchingError = { status: number; message: string };
-
-type IdleState = {
-  state: 'idle';
-};
-
-type LoadingState = {
-  state: 'loading';
-};
-
-type SuccessState = {
-  state: 'success';
-  results: TListItem[];
-};
-
-type ErrorState = {
-  state: 'error';
-  error: ListFetchingError;
-};
-
-type ComponentListState = IdleState | LoadingState | SuccessState | ErrorState;
+import { ComponentListState, LIST_STATE_VALUE } from './types/Service';
+// import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -35,17 +15,19 @@ type ComponentListState = IdleState | LoadingState | SuccessState | ErrorState;
   imports: [
     RouterOutlet,
     ListItemComponent,
+    FormComponent,
     NgIf,
     MatIconModule,
-    FormComponent,
+    // ReactiveFormsModule,
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   title = 'CRUD App';
   items: TListItem[] = [];
-  listState: ComponentListState = { state: 'idle' };
+  listState: ComponentListState<TListItem> = { state: LIST_STATE_VALUE.IDLE };
+  listStateValue = LIST_STATE_VALUE;
   isFormOpen = false;
   private tasksService = inject(ApiService);
 
@@ -58,18 +40,18 @@ export class AppComponent implements OnInit {
   }
 
   getAllItems() {
-    this.listState = { state: 'loading' };
+    this.listState = { state: LIST_STATE_VALUE.LOADING };
 
     this.tasksService.getAll().subscribe({
       next: (response) => {
         this.listState = {
-          state: 'success',
+          state: LIST_STATE_VALUE.SUCCESS,
           results: response,
         };
       },
       error: (err) => {
         this.listState = {
-          state: 'error',
+          state: LIST_STATE_VALUE.ERROR,
           error: err,
         };
       },
