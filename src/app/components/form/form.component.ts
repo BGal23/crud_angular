@@ -9,20 +9,27 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ComponentListState, LIST_STATE_VALUE } from '../../types/Service';
+import { ComponentListState } from '../../types/Service';
+import towns from '../../assets/towns.json';
+import keywords from '../../assets/keywords.json';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-form',
-  imports: [MatIconModule, ReactiveFormsModule],
+  imports: [MatIconModule, ReactiveFormsModule, NgFor],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss',
 })
 export class FormComponent {
   @Output() closeForm = new EventEmitter<void>();
+  @Output() addItemToList = new EventEmitter<TListItem>();
   @Input() listState: ComponentListState<TListItem> = {
     state: 'IDLE',
   };
   private apiService = inject(ApiService);
+
+  towns: { name: string; id: number }[] = towns;
+  keywords: string[] = keywords;
 
   form: FormGroup;
 
@@ -49,13 +56,10 @@ export class FormComponent {
         status: true,
         id: generateId,
       };
-      this.onCloseForm();
       this.apiService.add(newObj).subscribe({
         next: (item) => {
-          this.listState = {
-            state: LIST_STATE_VALUE.SUCCESS,
-            results: [item],
-          };
+          this.addItemToList.emit(item);
+          this.onCloseForm();
         },
       });
     } else {

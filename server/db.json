@@ -1,24 +1,25 @@
 {
   "campaigns": [
     {
-      "id": "738a126a-7274-4aa1-97ef-14ad7be12075",
-      "name": "A",
-      "amount": 1,
-      "fund": 1,
-      "town": "A",
-      "radius": 1,
-      "keywords": "1a",
-      "status": false
+      "id": "6e7efd95-6cf4-4d47-84c1-e770e94f7377",
+      "name": "Bartłomiej",
+      "amount": 234,
+      "fund": 2342,
+      "town": "Krakow",
+      "radius": 234,
+      "keywords": "234",
+      "status": true
     },
     {
-      "id": "1c1fb1c2-4199-4867-be0a-a1e4c44d25d1",
-      "name": "B",
-      "amount": 2,
-      "fund": 2,
-      "town": "B",
-      "radius": 2,
-      "keywords": "2b",
+      "id": "1b9b1f15-ebcf-4265-b5ee-5ea906a8ca2d",
+      "name": "ww",
+      "amount": 23,
+      "fund": 234,
+      "town": "Krakow",
+      "radius": 234,
+      "keywords": "234",
       "status": true
     }
-  ]
+  ],
+  "account": 10000
 }

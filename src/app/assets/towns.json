@@ -1,0 +1,9 @@
+[
+  { "name": "Warsaw", "id": 1 },
+  { "name": "Krakow", "id": 2 },
+  { "name": "Łódź", "id": 3 },
+  { "name": "Wrocław", "id": 4 },
+  { "name": "Poznań", "id": 5 },
+  { "name": "Gdańsk", "id": 6 },
+  { "name": "Szczecin", "id": 7 }
+]

@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { TListItem } from '../../types/TListItem';
@@ -12,18 +12,24 @@ import { ApiService } from '../../service/api.service';
 })
 export class ListItemComponent {
   @Input({ required: true }) items: TListItem[] = [];
+  @Output() deleteInfo = new EventEmitter<number>();
 
   private apiService = inject(ApiService);
 
   delete(id: string) {
-    this.apiService.delete(id).subscribe({
-      next: () => {
-        this.items = this.items.filter((item) => item.id !== id);
-      },
-      error: (res) => {
-        alert(res.message);
-      },
-    });
+    const itemToDelete = this.items.find((item) => item.id === id);
+
+    if (itemToDelete) {
+      this.apiService.delete(id).subscribe({
+        next: () => {
+          this.items = this.items.filter((item) => item.id !== id);
+          this.deleteInfo.emit(itemToDelete.fund);
+        },
+        error: (res) => {
+          alert(res.message);
+        },
+      });
+    }
   }
 
   changeStatus(id: string) {

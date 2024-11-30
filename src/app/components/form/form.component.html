@@ -1,5 +1,9 @@
 <div class="window">
-  <form class="form" [formGroup]="form" (ngSubmit)="addItem()">
+  <form
+    class="form"
+    [formGroup]="form"
+    (ngSubmit)="listState.state === 'SUCCESS' && addItem()"
+  >
     <div class="form__wrapper">
       <h2 class="form__title">Enter new marketing campaign data</h2>
       <button type="button" (click)="onCloseForm()">
@@ -20,7 +24,11 @@
     </div>
     <div class="form__item">
       <label for="town">Town:</label>
-      <input id="town" formControlName="town" />
+      <select id="town" formControlName="town">
+        <option *ngFor="let town of towns" [value]="town.name">
+          {{ town.name }}
+        </option>
+      </select>
     </div>
     <div class="form__item">
       <label for="radius">Radius:</label>

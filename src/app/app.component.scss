@@ -1,10 +1,18 @@
 .container {
   margin: 0 1em 0;
+  width: calc(100% - 2em);
 }
 
-header {
+.header {
   background-color: var(--main-color);
   height: 4em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__wrapper {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;

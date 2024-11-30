@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, Output } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ListItemComponent } from './components/list-item/list-item.component';
 import { NgIf } from '@angular/common';
@@ -7,7 +7,6 @@ import { FormComponent } from './components/form/form.component';
 import { ApiService } from './service/api.service';
 import { TListItem } from './types/TListItem';
 import { ComponentListState, LIST_STATE_VALUE } from './types/Service';
-// import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +17,6 @@ import { ComponentListState, LIST_STATE_VALUE } from './types/Service';
     FormComponent,
     NgIf,
     MatIconModule,
-    // ReactiveFormsModule,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
@@ -29,6 +27,7 @@ export class AppComponent implements OnInit {
   listState: ComponentListState<TListItem> = { state: LIST_STATE_VALUE.IDLE };
   listStateValue = LIST_STATE_VALUE;
   isFormOpen = false;
+  balance: number = 0;
   private tasksService = inject(ApiService);
 
   toggleForm(isOpen: boolean): void {
@@ -36,6 +35,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getBalance();
     this.getAllItems();
   }
 
@@ -48,6 +48,11 @@ export class AppComponent implements OnInit {
           state: LIST_STATE_VALUE.SUCCESS,
           results: response,
         };
+        const sum = this.listState.results.reduce((total, item) => {
+          return total + item.fund;
+        }, 0);
+
+        this.balance -= sum;
       },
       error: (err) => {
         this.listState = {
@@ -56,5 +61,35 @@ export class AppComponent implements OnInit {
         };
       },
     });
+  }
+
+  addItemToList(newItem: TListItem) {
+    if (
+      this.listState.state === LIST_STATE_VALUE.SUCCESS &&
+      Array.isArray(this.listState.results)
+    ) {
+      this.listState = {
+        ...this.listState,
+        results: [...this.listState.results, newItem],
+      };
+      this.balance -= newItem.fund;
+    } else {
+      console.error('Cannot add item.', this.listState);
+    }
+  }
+
+  getBalance() {
+    this.tasksService.getAccount().subscribe({
+      next: (response) => {
+        this.balance = response;
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
+
+  onCampaignDeleted(fund: number) {
+    this.balance += fund;
   }
 }

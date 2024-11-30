@@ -1,7 +1,10 @@
-<header>
+<header class="header">
   <div class="container">
-    <div class="logo">
-      {{ title }}
+    <div class="header__wrapper">
+      <div class="logo">
+        {{ title }}
+      </div>
+      <div>{{ balance }} $</div>
     </div>
   </div>
 </header>
@@ -11,6 +14,7 @@
     <app-list-item
       *ngIf="listState.state === listStateValue.SUCCESS"
       [items]="listState.results"
+      (deleteInfo)="onCampaignDeleted($event)"
     />
     <div *ngIf="listState.state === listStateValue.LOADING">Loading...</div>
     <div *ngIf="listState.state === listStateValue.ERROR">
@@ -21,7 +25,11 @@
     <span>Add new campaign</span><mat-icon>add</mat-icon>
   </button>
   <div class="background" *ngIf="isFormOpen">
-    <app-form (closeForm)="toggleForm(false)" [listState]="listState" />
+    <app-form
+      (closeForm)="toggleForm(false)"
+      [listState]="listState"
+      (addItemToList)="addItemToList($event)"
+    />
   </div>
 </main>
 

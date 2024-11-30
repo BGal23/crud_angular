@@ -24,4 +24,8 @@ export class ApiService {
   add(obj: TListItem) {
     return this.http.post<TListItem>(`${this.URL}/campaigns`, obj);
   }
+
+  getAccount() {
+    return this.http.get<number>(`${this.URL}/account`);
+  }
 }
