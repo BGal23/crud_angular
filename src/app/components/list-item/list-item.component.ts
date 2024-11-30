@@ -12,7 +12,10 @@ import { ApiService } from '../../service/api.service';
 })
 export class ListItemComponent {
   @Input({ required: true }) items: TListItem[] = [];
-  @Output() deleteInfo = new EventEmitter<number>();
+  @Output() deleteInfo = new EventEmitter<string>();
+  @Output() changeInfo = new EventEmitter<string>();
+  @Output() openForm = new EventEmitter<void>();
+  @Output() formData = new EventEmitter<TListItem>();
 
   private apiService = inject(ApiService);
 
@@ -23,13 +26,18 @@ export class ListItemComponent {
       this.apiService.delete(id).subscribe({
         next: () => {
           this.items = this.items.filter((item) => item.id !== id);
-          this.deleteInfo.emit(itemToDelete.fund);
+          this.deleteInfo.emit(itemToDelete.id);
         },
         error: (res) => {
           alert(res.message);
         },
       });
     }
+  }
+
+  editItem(item: TListItem) {
+    this.formData.emit(item);
+    this.openForm.emit();
   }
 
   changeStatus(id: string) {
@@ -41,6 +49,7 @@ export class ListItemComponent {
       next: (res) => {
         this.items = this.items.map((item) => {
           if (item.id === res.id) {
+            this.changeInfo.emit(item.id);
             return res;
           } else {
             return item;

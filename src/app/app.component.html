@@ -1,10 +1,10 @@
 <header class="header">
   <div class="container">
     <div class="header__wrapper">
-      <div class="logo">
+      <div class="header__logo">
         {{ title }}
       </div>
-      <div>{{ balance }} $</div>
+      <div class="header__balance">{{ balance.toFixed(2) }} $</div>
     </div>
   </div>
 </header>
@@ -14,14 +14,17 @@
     <app-list-item
       *ngIf="listState.state === listStateValue.SUCCESS"
       [items]="listState.results"
-      (deleteInfo)="onCampaignDeleted($event)"
+      (deleteInfo)="onDeleted($event)"
+      (changeInfo)="onChanged($event)"
+      (openForm)="toggleForm(true, true)"
+      (formData)="getFormData($event)"
     />
     <div *ngIf="listState.state === listStateValue.LOADING">Loading...</div>
     <div *ngIf="listState.state === listStateValue.ERROR">
       Error: {{ listState.error.message }}
     </div>
   </div>
-  <button type="button" class="open-form" (click)="toggleForm(true)">
+  <button type="button" class="open-form" (click)="toggleForm(true, false)">
     <span>Add new campaign</span><mat-icon>add</mat-icon>
   </button>
   <div class="background" *ngIf="isFormOpen">
@@ -29,6 +32,9 @@
       (closeForm)="toggleForm(false)"
       [listState]="listState"
       (addItemToList)="addItemToList($event)"
+      (editItemToList)="editItemToList($event)"
+      [editFormData]="formData"
+      [isEdit]="isFormEdit"
     />
   </div>
 </main>

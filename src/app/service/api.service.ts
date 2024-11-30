@@ -6,7 +6,7 @@ import { TListItem } from '../types/TListItem';
   providedIn: 'root',
 })
 export class ApiService {
-  private URL = 'http://localhost:3000'; // 'https://67487cd15801f51535911fa2.mockapi.io';
+  private URL = 'http://localhost:3000';
   private http = inject(HttpClient);
 
   getAll() {

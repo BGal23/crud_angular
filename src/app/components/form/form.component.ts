@@ -11,7 +11,6 @@ import {
 } from '@angular/forms';
 import { ComponentListState } from '../../types/Service';
 import towns from '../../assets/towns.json';
-import keywords from '../../assets/keywords.json';
 import { NgFor } from '@angular/common';
 
 @Component({
@@ -23,13 +22,15 @@ import { NgFor } from '@angular/common';
 export class FormComponent {
   @Output() closeForm = new EventEmitter<void>();
   @Output() addItemToList = new EventEmitter<TListItem>();
+  @Output() editItemToList = new EventEmitter<TListItem>();
+  @Input() editFormData: TListItem | undefined;
   @Input() listState: ComponentListState<TListItem> = {
     state: 'IDLE',
   };
+  @Input() isEdit: boolean = false;
   private apiService = inject(ApiService);
-
   towns: { name: string; id: number }[] = towns;
-  keywords: string[] = keywords;
+  // keywords: string[] = keywords;
 
   form: FormGroup;
 
@@ -41,7 +42,15 @@ export class FormComponent {
       town: ['', Validators.required],
       radius: [0, [Validators.required, Validators.min(0)]],
       keywords: [''],
+      id: [''],
+      stats: [true],
     });
+  }
+
+  ngOnInit(): void {
+    if (this.editFormData) {
+      this.form.patchValue(this.editFormData);
+    }
   }
 
   onCloseForm(): void {
@@ -63,7 +72,25 @@ export class FormComponent {
         },
       });
     } else {
-      alert('Form is wrong');
+      alert('New form is wrong');
+    }
+  }
+
+  editItem() {
+    if (this.form.valid) {
+      const updatedItem: TListItem = {
+        ...this.form.value,
+      };
+
+      this.apiService.update(updatedItem.id, updatedItem).subscribe({
+        next: (item) => {
+          this.editItemToList.emit(item);
+          this.onCloseForm();
+          return item;
+        },
+      });
+    } else {
+      alert('Edit form is wrong');
     }
   }
 }

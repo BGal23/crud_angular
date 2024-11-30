@@ -1,3 +1,5 @@
+@use "../../assets/mixins.scss" as *;
+
 .window {
   background-color: var(--background-color);
   border: 1px solid black;
@@ -44,6 +46,14 @@
   justify-content: space-between;
   flex-direction: column;
   gap: 0.5em;
+  & textarea {
+    resize: none;
+    height: 5em;
+  }
+}
+
+.form__close {
+  margin-left: 2em;
 }
 
 .form__button {
@@ -69,9 +79,10 @@
     }
   }
 }
-
+select,
 input {
   margin-left: 1em;
+  width: 130px;
 }
 
 .form__title {

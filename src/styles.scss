@@ -2,7 +2,7 @@
   // COLORS
   --main-color: dodgerblue;
   --secondary-color: gold;
-  --background-color: white;
+  --background-color: #F2F2F2;
   --shadow-color: grey
   --font-color: #000;
 
@@ -11,10 +11,14 @@
   --lg-font: 1.5em;
   --md-font: 1em;
   --sl: 0.5em;
+
 }
 
 body {
-  margin: 0;
+   margin: 0; 
+   font-family: Roboto,  "Helvetica Neue", sans-serif;   
+   margin: 0;
+  background-color: var(--background-color);
 }
 
 ul {
@@ -22,5 +26,8 @@ ul {
   padding: 0;
 }
 
+button {
+  cursor: pointer;
+}
+
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

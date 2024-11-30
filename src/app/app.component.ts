@@ -7,6 +7,7 @@ import { FormComponent } from './components/form/form.component';
 import { ApiService } from './service/api.service';
 import { TListItem } from './types/TListItem';
 import { ComponentListState, LIST_STATE_VALUE } from './types/Service';
+import emptyItem from './assets/emptyItem.json';
 
 @Component({
   selector: 'app-root',
@@ -23,15 +24,27 @@ import { ComponentListState, LIST_STATE_VALUE } from './types/Service';
 })
 export class AppComponent implements OnInit {
   title = 'CRUD App';
-  items: TListItem[] = [];
   listState: ComponentListState<TListItem> = { state: LIST_STATE_VALUE.IDLE };
   listStateValue = LIST_STATE_VALUE;
   isFormOpen = false;
+  isFormEdit = false;
   balance: number = 0;
+  formData: TListItem | undefined;
   private tasksService = inject(ApiService);
 
-  toggleForm(isOpen: boolean): void {
+  toggleForm(isOpen: boolean, isEdit?: boolean): void {
+    if (!isEdit) {
+      this.isFormEdit = false;
+      this.formData = emptyItem;
+    } else {
+      this.isFormEdit = true;
+    }
+
     this.isFormOpen = isOpen;
+  }
+
+  getFormData(data: TListItem) {
+    this.formData = data;
   }
 
   ngOnInit(): void {
@@ -74,7 +87,31 @@ export class AppComponent implements OnInit {
       };
       this.balance -= newItem.fund;
     } else {
-      console.error('Cannot add item.', this.listState);
+      console.error('Cannot add item!', this.listState);
+    }
+  }
+
+  editItemToList(editItem: TListItem) {
+    if (this.listState.state === 'SUCCESS') {
+      const oldItem = this.listState.results.find(
+        (item) => item.id === editItem.id
+      );
+
+      if (oldItem) {
+        this.listState = {
+          ...this.listState,
+          results: this.listState.results.map((item) =>
+            item.id === editItem.id ? { ...item, ...editItem } : item
+          ),
+        };
+
+        this.balance += oldItem.fund;
+        this.balance -= editItem.fund;
+      } else {
+        console.error('Old item not found!');
+      }
+    } else {
+      console.error('Can not change this element!');
     }
   }
 
@@ -84,12 +121,45 @@ export class AppComponent implements OnInit {
         this.balance = response;
       },
       error: (err) => {
-        console.error(err);
+        console.error('Cannot get balance!', err);
       },
     });
   }
 
-  onCampaignDeleted(fund: number) {
-    this.balance += fund;
+  onChanged(id: string) {
+    if (this.listState.state === 'SUCCESS') {
+      const itemToUpdate = this.listState.results.find(
+        (item) => item.id === id
+      );
+
+      if (itemToUpdate) {
+        itemToUpdate.status = !itemToUpdate.status;
+        this.listState = {
+          ...this.listState,
+          results: this.listState.results.map((item) =>
+            item.id === id ? { ...item, status: itemToUpdate.status } : item
+          ),
+        };
+      } else {
+        console.error('This ID does not exist!');
+      }
+    }
+  }
+
+  onDeleted(id: string) {
+    if (this.listState.state === 'SUCCESS') {
+      const itemToDelete = this.listState.results.find(
+        (item) => item.id === id
+      );
+
+      if (itemToDelete) {
+        this.balance += itemToDelete.fund;
+        this.listState.results = this.listState.results.filter(
+          (item) => item.id !== itemToDelete.id
+        );
+      } else {
+        console.error('This ID does not exist!');
+      }
+    }
   }
 }

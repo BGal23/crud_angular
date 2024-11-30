@@ -1,23 +1,14 @@
 {
   "campaigns": [
     {
-      "id": "6e7efd95-6cf4-4d47-84c1-e770e94f7377",
-      "name": "Bartłomiej",
-      "amount": 234,
-      "fund": 2342,
+      "id": "4cc74f24-1f3d-4ad5-b2af-94e3ee104b58",
+      "name": "New campaing",
+      "amount": 12,
+      "fund": 3000,
       "town": "Krakow",
-      "radius": 234,
-      "keywords": "234",
-      "status": true
-    },
-    {
-      "id": "1b9b1f15-ebcf-4265-b5ee-5ea906a8ca2d",
-      "name": "ww",
-      "amount": 23,
-      "fund": 234,
-      "town": "Krakow",
-      "radius": 234,
-      "keywords": "234",
+      "radius": 100,
+      "keywords": "random",
+      "stats": true,
       "status": true
     }
   ],

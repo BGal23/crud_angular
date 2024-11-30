@@ -1,7 +1,18 @@
+@use "../../assets/mixins.scss" as *;
+
 .list {
   display: flex;
   flex-direction: column;
   gap: 1em;
+
+  @include for-tablet {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @include for-desktop {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 }
 
 .item {
@@ -10,6 +21,11 @@
   padding: 1em;
   margin: 0 5px 5px 0;
   box-shadow: 5px 5px 0px 0px grey;
+  background-color: lightgray;
+
+  &.active {
+    background-color: var(--background-color);
+  }
 }
 
 .item__name {
@@ -32,6 +48,7 @@
 
 .item__input,
 .item__button {
+  cursor: pointer;
   width: 3em;
   height: 3em;
   border-radius: 1.5em;

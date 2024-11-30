@@ -1,19 +1,20 @@
 <ul class="list">
   <li *ngFor="let item of items.reverse()">
-    <div class="item">
+    <div class="item" [class.active]="item.status">
       <div class="item__wrapper">
         <div class="item__box">
           <strong class="item__name">{{ item.name }}</strong>
-          <span>Amount: {{ item.amount }}</span>
-          <span>Fund: {{ item.fund }}</span>
+          <span>Amount: {{ item.amount.toFixed(2) }} $</span>
+          <span>Fund: {{ item.fund.toFixed(2) }} $</span>
           <span>Town: {{ item.town }}</span>
-          <span>Radius: {{ item.radius }}km</span>
+          <span>Radius: {{ item.radius }} km</span>
+          <span>Keywords: {{ item.keywords }}</span>
         </div>
         <div class="item__box">
           <button (click)="delete(item.id)" class="item__button" type="button">
             <mat-icon>delete</mat-icon>
           </button>
-          <button class="item__button" type="button">
+          <button (click)="editItem(item)" class="item__button" type="button">
             <mat-icon>edit</mat-icon>
           </button>
           <input
